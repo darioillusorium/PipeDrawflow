@@ -693,7 +693,7 @@ export default class Drawflow {
 
   }
 
-  addConnection(id_output, id_input, output_class, input_class) {
+  addConnection(id_output, id_input, output_class, input_class, connection_type=undefined) {
     let nodeOneModule = this.getModuleFromNodeId(id_output);
     let nodeTwoModule = this.getModuleFromNodeId(id_input);
     if(nodeOneModule === nodeTwoModule) {
@@ -709,16 +709,20 @@ export default class Drawflow {
       // Check connection exist
       if(exist === false) {
         //Create Connection
-        this.drawflow.drawflow[nodeOneModule].data[id_output].outputs[output_class].connections.push( {"node": id_input.toString(), "output": input_class});
-        this.drawflow.drawflow[nodeOneModule].data[id_input].inputs[input_class].connections.push( {"node": id_output.toString(), "input": output_class});
+        this.drawflow.drawflow[nodeOneModule].data[id_output].outputs[output_class].connections.push( {"node": id_input.toString(), "output": input_class, "type": connection_type});
+        this.drawflow.drawflow[nodeOneModule].data[id_input].inputs[input_class].connections.push( {"node": id_output.toString(), "input": output_class, "type": connection_type});
 
         if(this.module === nodeOneModule) {
         //Draw connection
           let connection = document.createElementNS('http://www.w3.org/2000/svg',"svg");
           let path = document.createElementNS('http://www.w3.org/2000/svg',"path");
+          
           path.classList.add("main-path");
-          path.setAttributeNS(null, 'd', '');
+           path.setAttributeNS(null, 'd', '');
           // path.innerHTML = 'a';
+          if (connection_type != undefined){
+            path.classList.add("type_" + connection_type)
+          }
           connection.classList.add("connection");
           connection.classList.add("node_in_node-"+id_input);
           connection.classList.add("node_out_node-"+id_output);
