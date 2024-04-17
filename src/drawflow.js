@@ -1180,6 +1180,17 @@ export default class Drawflow {
     return nodes;
   }
 
+  translate_to (x,y){
+    this.canvas_x = x
+    this.canvas_y = y
+    let storedZoom = this.zoom
+    this.zoom = 1
+    this.precanvas.style.transform = "translate("+this.canvas_x+"px, "+this.canvas_y+"px) scale("+this.zoom+")"
+    this.zoom = storedZoom
+    this.zoom_last_value = 1
+    this.zoom_refresh()
+}
+
   addNode (name, num_in, num_out, ele_pos_x, ele_pos_y, classoverride, data, html, typenode = false) {
     let newNodeId = this.nodeId;
     if (this.useuuid) {
