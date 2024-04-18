@@ -257,7 +257,7 @@ Parameter | Type | Description
 ## Methods
 Other available functions.
 
-Mehtod | Description
+Method | Description
 --- | ---
 `zoom_in()` | Increment zoom +0.1
 `zoom_out()` | Decrement zoom -0.1
@@ -276,6 +276,7 @@ Mehtod | Description
 `getModuleFromNodeId(id)` | Get name of module where is the id. Ex id: `5`
 `clearModuleSelected()` | Clear data of module selected
 `clear()` | Clear all data of all modules and modules remove.
+`translate_to(x, y)` | Focus to position. Ex: `140, 530`.
 
 ### Methods example
 
