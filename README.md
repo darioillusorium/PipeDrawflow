@@ -269,7 +269,7 @@ Method | Description
 `addNodeOutput(id)` | Add output to node. Ex id: `5`
 `removeNodeInput(id, input_class)` | Remove input to node. Ex id: `5`, `input_2`
 `removeNodeOutput(id, output_class)` | Remove output to node. Ex id: `5`, `output_2`
-`addConnection(id_output, id_input, output_class, input_class)` | Add connection. Ex: `15,16,'output_1','input_1'`
+`addConnection(id_output, id_input, output_class, input_class, connection_type=undefined)` | Add connection and an optional connection type Ex: `15,16,'output_1','input_1', 'ghost'`
 `removeSingleConnection(id_output, id_input, output_class, input_class)` | Remove connection. Ex: `15,16,'output_1','input_1'`
 `updateConnectionNodes(id)` | Update connections position from Node Ex id: `node-x`
 `removeConnectionNodeId(id)` | Remove node connections. Ex id: `node-x`
