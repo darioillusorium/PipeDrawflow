@@ -268,28 +268,28 @@ export default class Drawflow {
         this.editor_selected = true;
         break;
       case 'main-path': {
-        if(this.node_selected != null) {
-          this.node_selected.classList.remove("selected");
-          this.node_selected = null;
-          this.dispatch('nodeUnselected', true);
-        }
-        if(this.connection_selected != null) {
-          this.connection_selected.classList.remove("selected");
-          this.removeReouteConnectionSelected();
-          this.connection_selected = null;
-        }
-        this.connection_selected = this.ele_selected;
-        this.connection_selected.classList.add("selected");
-        const listclassConnection = this.connection_selected.parentElement.classList;
-        if(listclassConnection.length > 1){
-          this.dispatch('connectionSelected', { output_id: listclassConnection[2].slice(14), input_id: listclassConnection[1].slice(13), output_class: listclassConnection[3], input_class: listclassConnection[4] });
-          if(this.reroute_fix_curvature) {
-            this.connection_selected.parentElement.querySelectorAll(".main-path").forEach((item, i) => {
-              item.classList.add("selected");
-            });
+          if(this.node_selected != null) {
+            this.node_selected.classList.remove("selected");
+            this.node_selected = null;
+            this.dispatch('nodeUnselected', true);
+          }
+          if(this.connection_selected != null) {
+            this.connection_selected.classList.remove("selected");
+            this.removeReouteConnectionSelected();
+            this.connection_selected = null;
+          }
+          this.connection_selected = this.ele_selected;
+          this.connection_selected.classList.add("selected");
+          const listclassConnection = this.connection_selected.parentElement.classList;
+          if(listclassConnection.length > 1){
+            this.dispatch('connectionSelected', { output_id: listclassConnection[2].slice(14), input_id: listclassConnection[1].slice(13), output_class: listclassConnection[3], input_class: listclassConnection[4] });
+            if(this.reroute_fix_curvature) {
+              this.connection_selected.parentElement.querySelectorAll(".main-path").forEach((item, i) => {
+                item.classList.add("selected");
+              });
+            }
           }
         }
-      }
       break;
       case 'point':
         this.drag_point = true;
@@ -1548,6 +1548,7 @@ export default class Drawflow {
         }
       }
 
+      //this.dispatch('nodeDataChanged', id);
     }
   }
 
@@ -1796,6 +1797,11 @@ export default class Drawflow {
     } else {
       return false;
     }
+  }
+
+  updateSingleConnection(id_output, id_input, output_class, input_class, data, deep_merge=false){
+    // ToDo: si deep_merge, mezclar diccionarios, si no, setear el nuevo diccionario de data
+    // ToDo: documentation
   }
 
   removeConnectionNodeId(id) {
