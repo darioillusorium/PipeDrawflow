@@ -1548,7 +1548,7 @@ export default class Drawflow {
         }
       }
 
-      //this.dispatch('nodeDataChanged', id);
+      this.dispatch('nodeDataChanged', id);
     }
   }
 
