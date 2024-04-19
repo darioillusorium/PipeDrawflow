@@ -1799,8 +1799,6 @@ export default class Drawflow {
   }
 
   updateSingleConnection(id_output, id_input, output_class, input_class, data){
-    // ToDo: si deep_merge, mezclar diccionarios, si no, setear el nuevo diccionario de data
-    // ToDo: documentation
     let nodeOneModule = this.getModuleFromNodeId(id_output);
     let nodeTwoModule = this.getModuleFromNodeId(id_input);
     if(nodeOneModule === nodeTwoModule) {
