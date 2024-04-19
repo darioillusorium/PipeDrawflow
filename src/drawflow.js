@@ -481,11 +481,11 @@ export default class Drawflow {
           let id_input = input_id.slice(5);
           let id_output = output_id.slice(5);
 
-          this.drawflow.drawflow[this.module].data[id_output].outputs[output_class].connections.push( {"node": id_input, "output": input_class});
-          this.drawflow.drawflow[this.module].data[id_input].inputs[input_class].connections.push( {"node": id_output, "input": output_class});
+          this.drawflow.drawflow[this.module].data[id_output].outputs[output_class].connections.push( {"node": id_input, "output": input_class, "type": undefined});
+          this.drawflow.drawflow[this.module].data[id_input].inputs[input_class].connections.push( {"node": id_output, "input": output_class, "type": undefined});
           this.updateConnectionNodes('node-'+id_output);
           this.updateConnectionNodes('node-'+id_input);
-          this.dispatch('connectionCreated', { output_id: id_output, input_id: id_input, output_class:  output_class, input_class: input_class});
+          this.dispatch('connectionCreated', { output_id: id_output, input_id: id_input, output_class:  output_class, input_class: input_class, type: undefined});
 
         } else {
           this.dispatch('connectionCancel', true);
@@ -1746,7 +1746,6 @@ export default class Drawflow {
     if(this.connection_selected != null) {
       let listclass = this.connection_selected.parentElement.classList;
       this.connection_selected.parentElement.remove();
-      //console.log(listclass);
       let index_out = this.drawflow.drawflow[this.module].data[listclass[2].slice(14)].outputs[listclass[3]].connections.findIndex(function(item,i) {
         return item.node === listclass[1].slice(13) && item.output === listclass[4]
       });
@@ -1799,9 +1798,61 @@ export default class Drawflow {
     }
   }
 
-  updateSingleConnection(id_output, id_input, output_class, input_class, data, deep_merge=false){
+  updateSingleConnection(id_output, id_input, output_class, input_class, data){
     // ToDo: si deep_merge, mezclar diccionarios, si no, setear el nuevo diccionario de data
     // ToDo: documentation
+    let nodeOneModule = this.getModuleFromNodeId(id_output);
+    let nodeTwoModule = this.getModuleFromNodeId(id_input);
+    if(nodeOneModule === nodeTwoModule) {
+      const connections_output = this.drawflow.drawflow[nodeTwoModule].data[id_output].outputs[output_class].connections
+      const connections_input = this.drawflow.drawflow[nodeTwoModule].data[id_input].inputs[input_class].connections
+      console.log(data)
+      let new_output_data, output_conn_index
+      for (const connection in connections_output){
+        console.log(connection)
+        if (connections_output[connection].node == id_input && connections_output[connection].output == input_class){
+          new_output_data = {...connections_output[connection], ...data}
+          output_conn_index = connection
+          break
+        }
+      }
+
+      let new_input_data, input_conn_index
+      for (const connection in connections_input){
+        if (connections_input[connection].node == id_output && connections_input[connection].input == output_class){
+          new_input_data = {...connections_input[connection], ...data}
+          input_conn_index = connection
+          break
+        }
+      }
+
+      if (new_output_data !== undefined && new_input_data !== undefined){
+        connections_output[output_conn_index] = new_output_data
+        connections_input[input_conn_index] = new_input_data
+
+        if(this.module === nodeOneModule) {
+          // In same module with view.
+          const connection_svg = this.container.querySelector('.connection.node_in_node-'+id_input+'.node_out_node-'+id_output+'.'+output_class+'.'+input_class);
+          const connection_path = connection_svg.getElementsByTagName('path')[0]
+
+          connection_path.classList.forEach(
+            function(value, key, listObj) {
+              if (value.includes('type_'))
+                connection_path.classList.remove(value)
+            }
+          )
+
+          connection_path.classList.remove("mystyle")
+
+          if ('type' in new_output_data){
+            connection_path.classList.add('type_' + new_output_data.type);
+          }
+        }
+
+        this.dispatch('connectionDataChanged', {id_output, id_input, output_class, input_class});
+      }
+      
+    }
   }
 
   removeConnectionNodeId(id) {
