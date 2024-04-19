@@ -1798,7 +1798,7 @@ export default class Drawflow {
     }
   }
 
-  updateSingleConnection(id_output, id_input, output_class, input_class, data){
+  updateSingleConnectionData(id_output, id_input, output_class, input_class, data){
     let nodeOneModule = this.getModuleFromNodeId(id_output);
     let nodeTwoModule = this.getModuleFromNodeId(id_input);
     if(nodeOneModule === nodeTwoModule) {
