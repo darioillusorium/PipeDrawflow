@@ -1804,10 +1804,8 @@ export default class Drawflow {
     if(nodeOneModule === nodeTwoModule) {
       const connections_output = this.drawflow.drawflow[nodeTwoModule].data[id_output].outputs[output_class].connections
       const connections_input = this.drawflow.drawflow[nodeTwoModule].data[id_input].inputs[input_class].connections
-      console.log(data)
       let new_output_data, output_conn_index
       for (const connection in connections_output){
-        console.log(connection)
         if (connections_output[connection].node == id_input && connections_output[connection].output == input_class){
           new_output_data = {...connections_output[connection], ...data}
           output_conn_index = connection
