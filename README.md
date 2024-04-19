@@ -271,6 +271,7 @@ Method | Description
 `removeNodeOutput(id, output_class)` | Remove output to node. Ex id: `5`, `output_2`
 `addConnection(id_output, id_input, output_class, input_class, connection_type=undefined)` | Add connection and an optional connection type Ex: `15,16,'output_1','input_1', 'ghost'`
 `removeSingleConnection(id_output, id_input, output_class, input_class)` | Remove connection. Ex: `15,16,'output_1','input_1'`
+`updateSingleConnectionData(id_output, id_input, output_class, input_class, data)` | Update connection data. Ex: `15,16,'output_1','input_1', {type: 'ghost'}`
 `updateConnectionNodes(id)` | Update connections position from Node Ex id: `node-x`
 `removeConnectionNodeId(id)` | Remove node connections. Ex id: `node-x`
 `getModuleFromNodeId(id)` | Get name of module where is the id. Ex id: `5`
